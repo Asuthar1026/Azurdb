@@ -1,30 +1,26 @@
 import pymysql
-
-# Create the database connection directly
+import os
+ 
+# Database connection
 connection = pymysql.connect(
-    host='astha-db.mysql.database.azure.com',  
-    user='root_astha',  
-    password='Secret55',  
-    database='db1'
+    host=os.getenv('DB_HOST'),          # The MySQL host
+    user=os.getenv('DB_USER'),          # The MySQL user
+    password=os.getenv('DB_PASSWORD'),  # The MySQL password
+    database=os.getenv('DB_NAME')
 )
-
-# Path to the SQL file
-script_path = 'update_projects_sigma.sql'
-
-# Read the SQL script from the file
-with open(script_path, 'r') as file:
+ 
+cursor = connection.cursor()
+ 
+# Open and execute the SQL script
+with open('update_companydb_schema.sql', 'r') as file:
     sql_script = file.read()
-
-# Create a cursor object to execute SQL queries
-cursor = connection.cursor()  
-
-# Execute each SQL statement individually (split by semicolon)
-for statement in sql_script.split(';'):
-    if statement.strip():  # Execute only non-empty statements
-        cursor.execute(statement)
-
-connection.commit()  # Commit all changes at once
-cursor.close()  # Close the cursor
-connection.close()  # Close the connection
-
-print("Execution completed successfully")
+    sql_commands = sql_script.split(';')
+    for command in sql_commands:
+        if command.strip():
+            cursor.execute(command)
+ 
+connection.commit()
+cursor.close()
+connection.close()
+ 
+print("completed")
