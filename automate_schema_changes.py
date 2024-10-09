@@ -3,9 +3,9 @@ import os
  
 # Database connection
 connection = pymysql.connect(
-    host=os.getenv('DB_HOST'),          # The MySQL host
-    user=os.getenv('DB_USER'),          # The MySQL user
-    password=os.getenv('DB_PASSWORD'),  # The MySQL password
+    host=os.getenv('DB_HOST'),         
+    user=os.getenv('DB_USER'),          
+    password=os.getenv('DB_PASSWORD'),  
     database=os.getenv('DB_NAME')
 )
  
